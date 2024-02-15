@@ -1,28 +1,37 @@
-# SQL-Server-Project-Library-
+# PostgreSQL-Project(Library)
 
 INTRODUCTION
-I decide to undertake this project because I wanted to showcase what i have learn in Datacamp online course specifically in T-SQL language. I use SQL(Structured Query Language) Server Management Studio as my platfrom. SQL allow users to create and manage database for storage and data management.
+The PostgreSQL Library project is a demonstration of the skills and knowledge acquired through the Datacamp online course, particularly in PostgreSQL. Leveraging the tools provided by pgAdmin, this project aims to showcase proficiency in data analysis and database management.
 
 ABOUT THE DATASET
-Name of Dataset : Book Recommendation Dataset
-Dataset source : https://www.kaggle.com/datasets/arashnic/book-recommendation-dataset?select=Users.csv
-Content
-The Book-Crossing dataset comprises 3 files.
+**books Table**
+- **isbn**: The unique identifier for each book. Converted to uppercase for consistency.
+  - Duplicate are already remove
+  - Distinct Values: 271033
+  - Primary key
+- **book_title**: The title of the book.
+- **book_author**: The author of the book.
+- **year_publish**: The year the book was published.
+  - Range: 1376 - 2021
+  - Data with year_publish more than 2021 have been remove and store into table books_deleted
+- **publisher**: The publisher of the book.
 
-**Users**
-Contains the users. Note that user IDs (User-ID) have been anonymized and map to integers. Demographic data is provided (Location, Age) if available. Otherwise, these fields contain NULL-values.
-**Books**
-Books are identified by their respective ISBN. Invalid ISBNs have already been removed from the dataset. Moreover, some content-based information is given (Book-Title, Book-Author, Year-Of-Publication, Publisher), obtained from Amazon Web Services. Note that in case of several authors, only the first is provided. URLs linking to cover images are also given, appearing in three different flavours (Image-URL-S, Image-URL-M, Image-URL-L), i.e., small, medium, large. These URLs point to the Amazon web site.
-**Ratings**
-Contains the book rating information. Ratings (Book-Rating) are either explicit, expressed on a scale from 1-10 (higher values denoting higher appreciation), or implicit, expressed by 0.
-**Acknowledgements**
-Collected by Cai-Nicolas Ziegler in a 4-week crawl (August / September 2004) from the Book-Crossing community with kind permission from Ron Hornbaker, CTO of Humankind Systems. Contains 278,858 users (anonymized but with demographic information) providing 1,149,780 ratings (explicit / implicit) about 271,379 books.
+**ratings Table**
+- **user_id** : The id of each user (not unique)
+  - foreign key references to user_id in users table
+- **isbn** : The isbn number of book read by each user_id
+  - foreign key references to isbn in books table
+- **book_ratings** : book_ratings are either explicit, expressed on a scale from 1-10 (higher values denoting higher appreciation), or implicit, expressed by 0.
+  - Implicit rating will be excluded in the analysis
 
-**All the Users,Books and Ratings files description were taken directly from https://www.kaggle.com/datasets/arashnic/book-recommendation-dataset?select=Users.csv.**
+ **users Table**
+ - **user_id** : The unique identifier for each user.
+   - Distinct Values : 278858
+   - Primary Key
+ - **location** : location by each user
+ - **age** : age of each user range from (0 -244)
+   - Contain null value
+   - Age (0-5_ and age more than 116 are excluded in analysis
 
-
-AFter importing the Users,Books and Ratings files into SQL Server. Some change were made (only on Users and Ratings)
-
-
-
-
+  
+ 
