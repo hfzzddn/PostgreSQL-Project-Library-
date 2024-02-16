@@ -2,9 +2,10 @@
 
 INTRODUCTION
 
-The PostgreSQL Library project is a demonstration of the skills and knowledge acquired through the Datacamp online course, particularly in PostgreSQL. Leveraging the tools provided by pgAdmin, this project aims to showcase proficiency in data analysis and database management.
+The PostgreSQL Library project is a demonstration of the skills and knowledge that I acquired through the Datacamp online course, particularly in PostgreSQL. By leveraging the tools provided by pgAdmin, this project aims to showcase proficiency in data analysis and database management.
 
 ABOUT THE DATASET
+
 **books Table**
 - **isbn**: The unique identifier for each book. Converted to uppercase for consistency.
   - Duplicate are already remove.
