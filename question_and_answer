@@ -8,16 +8,13 @@
 
 1. Find top 5 number of book produce by author.
 
-````sql
+```sql
+
 SELECT book_author, COUNT(*) AS num_of_books 
 FROM books
 GROUP BY 1
 ORDER BY 2 DESC
 LIMIT 5;
-````
-````sql
-SELECT 
-	to_char(count(*), '9g999g999') AS "Total Reported Crimes"
-FROM 
-	chicago.crimes;
-````
+
+```
+
