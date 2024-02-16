@@ -32,6 +32,10 @@ ABOUT THE DATASET
  - **age** : age of each user range from (0 -244).
    - Contain null value.
    - Age (0-5) and age more than 116 are excluded from analysis.
-
   
+
+**Entity Relationship Diagram**
+
+![ERD library](https://github.com/hfzzddn/SQL-Server-Project-Library-/assets/157438704/c134e811-5f0a-43fb-a62b-54f204777858)
+
  
