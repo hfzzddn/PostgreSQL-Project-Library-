@@ -1,13 +1,5 @@
 **LIBRARY**
 
-**Question and Answer**
-
-**Author** : Mohamad Hafizzuddin Bin Yahya
-
-**Email** : hafizz.yahya777@gmail.com
-
-**LinkedIn** :
-
 1. Find top 5 number of book produce by author.
 
 ```sql
