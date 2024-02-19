@@ -1,5 +1,11 @@
 # PostgreSQL-Project(Library)
 
+**Auhtor:** Mohamad Hafizzudin Bin Yahya
+
+**Email:** hafizz.yahya777@gmail.com
+
+**LinkedIn:** http://www.linkedin.com/in/mohamad-hafizzuddin
+
 INTRODUCTION
 
 The PostgreSQL Library project is a demonstration of the skills and knowledge that I acquired through the Datacamp online course, particularly in PostgreSQL. By leveraging the tools provided by pgAdmin, this project aims to showcase proficiency in data analysis and database management.
