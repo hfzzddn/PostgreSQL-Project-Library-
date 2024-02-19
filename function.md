@@ -91,4 +91,39 @@ SELECT * FROM fav_book()
 
 
 3. Find average of book rating by author
+   i. Include only average > 6
 
+```sql
+CREATE OR REPLACE FUNCTION findbookratingbyauthor ( para1 varchar(300))
+RETURNS TABLE (book_author varchar(300),
+			   book_title varchar(300),
+			   avg_rating NUMERIC)
+AS $$
+BEGIN
+    RETURN QUERY
+	SELECT 	b.book_author,
+       		b.book_title, 
+	   		ROUND(AVG(r.book_ratings :: NUMERIC),2) AS avg_rating
+	FROM books b
+	INNER JOIN ratings r
+	USING(isbn)
+	WHERE b.book_author LIKE para1
+	GROUP BY 1,2
+	HAVING ROUND(AVG(r.book_ratings :: NUMERIC),2) > 6
+	ORDER BY 3 DESC;
+END;
+$$ LANGUAGE plpgsql;
+```
+
+```sql
+SELECT * FROM findbookratingbyauthor('J.K%');
+```
+
+**Results**
+
+| book_author   | book_title                                           | avg_rating |
+|---------------|------------------------------------------------------|------------|
+| J.K. Rowling  | Harry Potter and the Philosopher's Stone             | 9.00       |
+| J.K. Rowling  | I El Pres D'askaban                                   | 9.00       |
+| J.K. Rowling  | Harry Potter et l'Ordre du PhÃƒÂ©nix (Harry Potter, tome 5) | 7.40       |
+| J.K. Rowling  | I La Pedra Filosofal                                  | 7.00       |
