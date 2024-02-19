@@ -1,4 +1,4 @@
-**FUNCTION THAT WERE CREATED**
+**FUNCTION AND TRIGGER**
 
 1. Find top average book rating with book read more than 10 times (exclude book rating = 0 )
 
@@ -127,3 +127,53 @@ SELECT * FROM findbookratingbyauthor('J.K%');
 | J.K. Rowling  | I El Pres D'askaban                                   | 9.00       |
 | J.K. Rowling  | Harry Potter et l'Ordre du PhÃƒÂ©nix (Harry Potter, tome 5) | 7.40       |
 | J.K. Rowling  | I La Pedra Filosofal                                  | 7.00       |
+
+4. Trigger to prevent ratings table deletion
+
+```sql
+CREATE FUNCTION prevent_ratingsdel()
+RETURNS TRIGGER AS $$
+BEGIN
+	RAISE EXCEPTION 'Deletion of ratings table are not allowed.';
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER stop_ratingsdel
+BEFORE DELETE
+ON ratings
+FOR EACH ROW
+EXECUTE FUNCTION prevent_ratingsdel();
+```
+
+```sql
+DELETE FROM ratings WHERE isbn = '000104687X';
+```
+
+**Results**
+
+ERROR:  Deletion are not allowed on this table.
+CONTEXT:  PL/pgSQL function prevent_ratingsdel() line 3 at RAISE 
+
+SQL state: P0001
+
+5. Trigger that store deleted item from table books
+   i. The table of book_deleted need to created first
+   ii. Any rows that were deleted will be store inside that table
+   
+```sql
+CREATE FUNCTION store_deleted_record ()
+RETURNS TRIGGER 
+AS $$
+BEGIN
+     INSERT INTO book_deleted(isbn,book_title,book_author,year_publish,publisher)
+	 VALUES (OLD.isbn,OLD.book_title,OLD.book_author,OLD.year_publish,OLD.publisher);
+	 RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER deleted_books
+AFTER DELETE
+ON books
+FOR EACH ROW
+EXECUTE FUNCTION store_deleted_record();
+```
