@@ -15,7 +15,7 @@ SELECT *,
        ROW_NUMBER()OVER (PARTITION BY isbn ORDER BY isbn) AS row_num
 FROM books)
 
-SELECT * FROM find_dup WHERE row_num > 1;
+SELECT * FROM find_dup WHERE row_num > 1; --We only select row = 1 because more than 1 indicate duplicate
 
 CREATE TABLE temp_books (
 isbn varchar(20),
@@ -26,9 +26,9 @@ publisher varchar(250));
 
 INSERT INTO temp_books(isbn,book_title,book_author,year_publish,publisher)
 SELECT DISTINCT isbn,book_title,book_author,year_publish,publisher
-FROM books;
+FROM books; -- insert non duplicate data into temp_books table
 
---check duplicate 
+--check duplicate again
 
 WITH find_dup AS (
 SELECT *,
@@ -43,26 +43,26 @@ SELECT * FROM find_dup WHERE row_num > 1;
 DELETE FROM temp_books 
 WHERE book_title = 'Key of Light (Key Trilogy (Paperback))';
 
---check duplicate (no duplicate)
+--check duplicate again (no duplicate)
 
---we will delete books table and rename temp_books 
+--delete books table and rename temp_books into books
 
 SELECT * FROM books ORDER BY year_publish DESC;
 
 --there are few data in year_publish column that does make any sense.
--- there are some data show year_publish in 2030.
+-- for example there are some data show year_publish in 2030.
 -- we will remove the row where year_publish >= 2024.
--- however the data remove will be insert into new table call books_deleted.
+-- however the row deleted will be insert into new table call books_deleted.
 --we use CREATE TRIGGER 
 
-CREATE TABLE book_deleted (
+CREATE TABLE book_deleted (   --create table to store deleted row from books table
 isbn varchar(20),
 book_title varchar(300),
 book_author varchar(300),
 year_publish int,
 publisher varchar(250));
 
-CREATE FUNCTION store_deleted_record ()
+CREATE FUNCTION store_deleted_record () --function that will execute insert into statement into book_deleted table
 RETURNS TRIGGER 
 AS $$
 BEGIN
@@ -72,7 +72,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER deleted_books
+CREATE TRIGGER deleted_books -- trigger that will execute the store_deleted_record() function
 AFTER DELETE
 ON books
 FOR EACH ROW
@@ -81,11 +81,12 @@ EXECUTE FUNCTION store_deleted_record();
 DELETE FROM books
 WHERE year_publish >= 2024;
 
-SELECT * FROM book_deleted;-- the deleted data are in this table;
+SELECT * FROM book_deleted;-- the deleted data are in this table; -- check the deleted row
 
---In order to establish relationship between table, we use primary key and foreihn key
---We will set primary key on books(isbn) and users table(user_id) and foregin key on ratings table(isbnb,user_id)
+--In order to establish relationship between table, we use primary key and foreign key
+--We will set primary key on books table(isbn column) and users table(user_id column) and foregin key on ratings table(isbnb column,user_id column)
 --The value of foreign key must exist in primary key table.
+-- We need to make sure value in ratings table exist in users and books table.
 --So we create temp_ratings table to store filtered ratings value as below.
 
 CREATE TABLE temp_ratings (
@@ -95,9 +96,9 @@ book_ratings INT);
 
 INSERT INTO temp_ratings(user_id,isbn,book_ratings)
 SELECT * FROM ratings
-WHERE isbn IN(SELECT isbn FROM books)
+WHERE isbn IN(SELECT isbn FROM books) --filter data 
 AND
-      user_id IN (SELECT user_id FROM users);
+      user_id IN (SELECT user_id FROM users); -filter data 
 
 --Drop the ratings table
 --rename temp_ratings as ratings
@@ -143,6 +144,8 @@ EXECUTE FUNCTION prevent_ratingsdel();
 -- try to delete isbn 
 
 DELETE FROM ratings WHERE isbn = '000104687X';
+
+--Start data analysis
 
 --find top avg book rating with book read more than 10 times
 -- excluding book ratings equal to 0
