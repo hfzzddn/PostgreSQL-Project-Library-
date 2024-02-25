@@ -1,6 +1,6 @@
 # PostgreSQL-Project(Library)
 
-**Auhtor:** Mohamad Hafizzudin Bin Yahya
+**Author:** Mohamad Hafizzudin Bin Yahya
 
 **Email:** hafizz.yahya777@gmail.com
 
