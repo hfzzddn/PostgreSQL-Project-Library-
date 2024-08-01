@@ -6,7 +6,7 @@
 --find duplicate
 
 --set isbn to upper case
-/*
+
 UPDATE books
 SET isbn = UPPER(isbn);
 
@@ -322,7 +322,7 @@ USING(isbn)
 WHERE r.book_ratings = 0
 GROUP BY 1,2
 ORDER BY 3 DESC
-LIMIT 5;*/
+LIMIT 5;
 
 
 
